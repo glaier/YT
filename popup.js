@@ -17,7 +17,7 @@ function filterVideos() {
   loadKeywords();
   var videoContainers = document.querySelectorAll('ytd-grid-video-renderer');
   for (var i = 0; i < videoContainers.length; i++) {
-    var titleElement = videoContainers[i].querySelector('a#video-title');
+    var titleElement = videoContainers[i].querySelector('#video-title');
     var descriptionElement = videoContainers[i].querySelector('#description-text');
     if (titleElement && descriptionElement) {
       var title = titleElement.innerText.toLowerCase();
