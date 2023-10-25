@@ -23,28 +23,12 @@ function addTitleKeyword() {
   }
 }
 
-function editTitleKeywords() {
-  var newTitleKeywords = prompt('Enter new title keywords (separated by commas):', titleKeywords.join(', '));
-  if (newTitleKeywords !== null) {
-    titleKeywords = newTitleKeywords.split(',').map(keyword => keyword.trim().toLowerCase());
-    saveKeywords();
-  }
-}
-
 function addDescriptionKeyword() {
   var newDescriptionKeyword = document.getElementById('descriptionKeyword').value.trim().toLowerCase();
   if (newDescriptionKeyword !== '') {
     descriptionKeywords.push(newDescriptionKeyword);
     saveKeywords();
     document.getElementById('descriptionKeyword').value = '';
-  }
-}
-
-function editDescriptionKeywords() {
-  var newDescriptionKeywords = prompt('Enter new description keywords (separated by commas):', descriptionKeywords.join(', '));
-  if (newDescriptionKeywords !== null) {
-    descriptionKeywords = newDescriptionKeywords.split(',').map(keyword => keyword.trim().toLowerCase());
-    saveKeywords();
   }
 }
 
@@ -63,5 +47,37 @@ function loadKeywords() {
     if (result.descriptionKeywords) {
       descriptionKeywords = result.descriptionKeywords;
     }
+    displayKeywords();
   });
 }
+
+function displayKeywords() {
+  var titleKeywordsElement = document.createElement('p');
+  titleKeywordsElement.textContent = 'Title Keywords: ' + titleKeywords.join(', ');
+  document.body.appendChild(titleKeywordsElement);
+
+  var descriptionKeywordsElement = document.createElement('p');
+  descriptionKeywordsElement.textContent = 'Description Keywords: ' + descriptionKeywords.join(', ');
+  document.body.appendChild(descriptionKeywordsElement);
+}
+
+function editTitleKeywords() {
+  var newTitleKeywords = prompt('Enter new title keywords (separated by commas):', titleKeywords.join(', '));
+  if (newTitleKeywords !== null) {
+    titleKeywords = newTitleKeywords.split(',').map(keyword => keyword.trim().toLowerCase());
+    saveKeywords();
+    displayKeywords();
+  }
+}
+
+function editDescriptionKeywords() {
+  var newDescriptionKeywords = prompt('Enter new description keywords (separated by commas):', descriptionKeywords.join(', '));
+  if (newDescriptionKeywords !== null) {
+    descriptionKeywords = newDescriptionKeywords.split(',').map(keyword => keyword.trim().toLowerCase());
+    saveKeywords();
+    displayKeywords();
+  }
+}
+
+var titleKeywords = [];
+var descriptionKeywords = [];
