@@ -17,9 +17,11 @@ document.addEventListener('DOMContentLoaded', function () {
 function addTitleKeyword() {
   var newTitleKeyword = document.getElementById('titleKeyword').value.trim().toLowerCase();
   if (newTitleKeyword !== '') {
-    titleKeywords.push(newTitleKeyword);
-    saveKeywords();
-    displayKeywords();
+    if (!titleKeywords.includes(newTitleKeyword)) {
+      titleKeywords.push(newTitleKeyword);
+      saveKeywords();
+      displayKeywords();
+    }
     document.getElementById('titleKeyword').value = '';
   }
 }
@@ -27,17 +29,19 @@ function addTitleKeyword() {
 function addDescriptionKeyword() {
   var newDescriptionKeyword = document.getElementById('descriptionKeyword').value.trim().toLowerCase();
   if (newDescriptionKeyword !== '') {
-    descriptionKeywords.push(newDescriptionKeyword);
-    saveKeywords();
-    displayKeywords();
+    if (!descriptionKeywords.includes(newDescriptionKeyword)) {
+      descriptionKeywords.push(newDescriptionKeyword);
+      saveKeywords();
+      displayKeywords();
+    }
     document.getElementById('descriptionKeyword').value = '';
   }
 }
 
 function saveKeywords() {
   chrome.storage.sync.set({
-    'titleKeywords': titleKeywords,
-    'descriptionKeywords': descriptionKeywords
+    'titleKeywords': [...new Set(titleKeywords)],
+    'descriptionKeywords': [...new Set(descriptionKeywords)]
   });
 }
 
