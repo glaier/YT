@@ -18,9 +18,6 @@
     }
   ],
   "web_accessible_resources": [
-    {
-      "resources": ["keywords.html"],
-      "matches": ["*://*.youtube.com/*"]
-    }
+    "keywords.html"
   ]
 }
