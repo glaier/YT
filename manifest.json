@@ -1,9 +1,9 @@
 {
-  "manifest_version": 3,
-  "name": "YouTube Video Filter",
+  "manifest_version": 2,
+  "name": "YouTube Filter Extension",
   "version": "1.0",
   "permissions": ["activeTab", "storage"],
-  "action": {
+  "browser_action": {
     "default_popup": "popup.html",
     "default_icon": {
       "16": "images/icon16.png",
@@ -11,14 +11,16 @@
       "128": "images/icon128.png"
     }
   },
+  "content_scripts": [
+    {
+      "matches": ["*://*.youtube.com/*"],
+      "js": ["content.js"]
+    }
+  ],
   "web_accessible_resources": [
     {
-      "resources": ["style.css"],
-      "matches": ["<all_urls>"]
-    },
-    {
       "resources": ["keywords.html"],
-      "matches": ["<all_urls>"]
+      "matches": ["*://*.youtube.com/*"]
     }
   ]
 }
