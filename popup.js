@@ -17,10 +17,10 @@ function filterVideos() {
   loadKeywords();
   chrome.tabs.query({ active: true, currentWindow: true }, function (tabs) {
     var activeTab = tabs[0];
-    chrome.tabs.sendMessage(activeTab.id, { 
-      action: "filter", 
-      titleKeywords: titleKeywords, 
-      descriptionKeywords: descriptionKeywords 
+    chrome.tabs.sendMessage(activeTab.id, {
+      action: 'filterVideos',
+      titleKeywords: titleKeywords,
+      descriptionKeywords: descriptionKeywords
     });
   });
 }
