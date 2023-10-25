@@ -1,6 +1,5 @@
 // content.js
 
-// Function to pause the active video
 function pauseVideo() {
   let video = document.querySelector('video');
   if (video) {
@@ -8,7 +7,6 @@ function pauseVideo() {
   }
 }
 
-// Function to filter the videos
 function filterVideos(titleKeywords, descriptionKeywords) {
   let videoElements = document.querySelectorAll('#secondary ytd-compact-video-renderer');
 
@@ -24,12 +22,10 @@ function filterVideos(titleKeywords, descriptionKeywords) {
   }
 }
 
-// Function to reload the page
 function reloadPage() {
   location.reload();
 }
 
-// Function to resume the active video
 function resumeVideo() {
   let video = document.querySelector('video');
   if (video) {
@@ -37,7 +33,6 @@ function resumeVideo() {
   }
 }
 
-// Helper function to check keywords
 function checkKeywords(text, keywords) {
   for (let keyword of keywords) {
     if (text.includes(keyword.toLowerCase())) {
@@ -47,17 +42,22 @@ function checkKeywords(text, keywords) {
   return false;
 }
 
-// Main function that orchestrates the filtering process
 function main() {
-  // You should load the keywords here
-  let titleKeywords = []; // Replace with loaded title keywords
-  let descriptionKeywords = []; // Replace with loaded description keywords
+  let titleKeywords = [];
+  let descriptionKeywords = [];
 
-  pauseVideo();
-  filterVideos(titleKeywords, descriptionKeywords);
-  reloadPage();
-  resumeVideo();
+  chrome.storage.sync.get(['titleKeywords', 'descriptionKeywords'], function (result) {
+    if (result.titleKeywords) {
+      titleKeywords = result.titleKeywords;
+    }
+    if (result.descriptionKeywords) {
+      descriptionKeywords = result.descriptionKeywords;
+    }
+
+    pauseVideo();
+    filterVideos(titleKeywords, descriptionKeywords);
+    resumeVideo();
+  });
 }
 
-// Execute the main function
 main();
