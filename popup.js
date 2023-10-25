@@ -12,10 +12,17 @@ document.addEventListener('DOMContentLoaded', function () {
 
 var titleKeywords = [];
 var descriptionKeywords = [];
+var activeVideo = null;
 
 function filterVideos() {
   loadKeywords();
   var videoContainers = document.querySelectorAll('ytd-grid-video-renderer');
+  activeVideo = document.querySelector('video.html5-main-video');
+
+  if (activeVideo) {
+    activeVideo.pause();
+  }
+
   for (var i = 0; i < videoContainers.length; i++) {
     var titleElement = videoContainers[i].querySelector('#video-title');
     var descriptionElement = videoContainers[i].querySelector('#description-text');
@@ -28,6 +35,10 @@ function filterVideos() {
         videoContainers[i].style.display = 'none';
       }
     }
+  }
+
+  if (activeVideo) {
+    activeVideo.play();
   }
 }
 
