@@ -2,30 +2,19 @@ document.addEventListener('DOMContentLoaded', function () {
   var filterButton = document.getElementById('filterButton');
   filterButton.addEventListener('click', filterVideos);
 
-  var addTitleKeywordButton = document.getElementById('addTitleKeyword');
-  addTitleKeywordButton.addEventListener('click', addTitleKeyword);
+  var editKeywordsButton = document.getElementById('editKeywords');
+  editKeywordsButton.addEventListener('click', function () {
+    chrome.tabs.create({ 'url': chrome.extension.getURL('keywords.html') });
+  });
 
-  var editTitleKeywordsButton = document.getElementById('editTitleKeywords');
-  editTitleKeywordsButton.addEventListener('click', editTitleKeywords);
-
-  var addDescriptionKeywordButton = document.getElementById('addDescriptionKeyword');
-  addDescriptionKeywordButton.addEventListener('click', addDescriptionKeyword);
-
-  var editDescriptionKeywordsButton = document.getElementById('editDescriptionKeywords');
-  editDescriptionKeywordsButton.addEventListener('click', editDescriptionKeywords);
-
-  applyFilters();
+  loadKeywords();
 });
 
 var titleKeywords = [];
 var descriptionKeywords = [];
 
-function applyFilters() {
-  loadKeywords();
-  filterVideos();
-}
-
 function filterVideos() {
+  loadKeywords();
   var videoContainers = document.querySelectorAll('ytd-grid-video-renderer');
   for (var i = 0; i < videoContainers.length; i++) {
     var titleElement = videoContainers[i].querySelector('a#video-title');
@@ -60,38 +49,4 @@ function loadKeywords() {
       descriptionKeywords = result.descriptionKeywords;
     }
   });
-}
-
-function addTitleKeyword() {
-  var newTitleKeyword = document.getElementById('titleKeyword').value.trim().toLowerCase();
-  if (newTitleKeyword !== '') {
-    titleKeywords.push(newTitleKeyword);
-    chrome.storage.sync.set({ 'titleKeywords': titleKeywords }, applyFilters);
-    document.getElementById('titleKeyword').value = '';
-  }
-}
-
-function editTitleKeywords() {
-  var newTitleKeywords = prompt('Enter new title keywords (separated by commas):', titleKeywords.join(', '));
-  if (newTitleKeywords !== null) {
-    titleKeywords = newTitleKeywords.split(',').map(keyword => keyword.trim().toLowerCase());
-    chrome.storage.sync.set({ 'titleKeywords': titleKeywords }, applyFilters);
-  }
-}
-
-function addDescriptionKeyword() {
-  var newDescriptionKeyword = document.getElementById('descriptionKeyword').value.trim().toLowerCase();
-  if (newDescriptionKeyword !== '') {
-    descriptionKeywords.push(newDescriptionKeyword);
-    chrome.storage.sync.set({ 'descriptionKeywords': descriptionKeywords }, applyFilters);
-    document.getElementById('descriptionKeyword').value = '';
-  }
-}
-
-function editDescriptionKeywords() {
-  var newDescriptionKeywords = prompt('Enter new description keywords (separated by commas):', descriptionKeywords.join(', '));
-  if (newDescriptionKeywords !== null) {
-    descriptionKeywords = newDescriptionKeywords.split(',').map(keyword => keyword.trim().toLowerCase());
-    chrome.storage.sync.set({ 'descriptionKeywords': descriptionKeywords }, applyFilters);
-  }
 }
