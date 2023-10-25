@@ -12,43 +12,17 @@ document.addEventListener('DOMContentLoaded', function () {
 
 var titleKeywords = [];
 var descriptionKeywords = [];
-var activeVideo = null;
 
 function filterVideos() {
   loadKeywords();
-  var videoContainers = document.querySelectorAll('ytd-grid-video-renderer');
-  activeVideo = document.querySelector('video.html5-main-video');
-
-  if (activeVideo) {
-    activeVideo.pause();
-  }
-
-  for (var i = 0; i < videoContainers.length; i++) {
-    var titleElement = videoContainers[i].querySelector('#video-title');
-    var descriptionElement = videoContainers[i].querySelector('#description-text');
-    if (titleElement && descriptionElement) {
-      var title = titleElement.innerText.toLowerCase();
-      var description = descriptionElement.innerText.toLowerCase();
-      var titleMatch = checkKeywords(title, titleKeywords);
-      var descriptionMatch = checkKeywords(description, descriptionKeywords);
-      if (titleMatch || descriptionMatch) {
-        videoContainers[i].style.display = 'none';
-      }
-    }
-  }
-
-  if (activeVideo) {
-    activeVideo.play();
-  }
-}
-
-function checkKeywords(text, keywords) {
-  for (var j = 0; j < keywords.length; j++) {
-    if (text.includes(keywords[j].toLowerCase())) {
-      return true;
-    }
-  }
-  return false;
+  chrome.tabs.query({ active: true, currentWindow: true }, function (tabs) {
+    var activeTab = tabs[0];
+    chrome.tabs.sendMessage(activeTab.id, { 
+      action: "filter", 
+      titleKeywords: titleKeywords, 
+      descriptionKeywords: descriptionKeywords 
+    });
+  });
 }
 
 function loadKeywords() {
