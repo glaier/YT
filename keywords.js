@@ -19,6 +19,7 @@ function addTitleKeyword() {
   if (newTitleKeyword !== '') {
     titleKeywords.push(newTitleKeyword);
     saveKeywords();
+    displayKeywords();
     document.getElementById('titleKeyword').value = '';
   }
 }
@@ -28,6 +29,7 @@ function addDescriptionKeyword() {
   if (newDescriptionKeyword !== '') {
     descriptionKeywords.push(newDescriptionKeyword);
     saveKeywords();
+    displayKeywords();
     document.getElementById('descriptionKeyword').value = '';
   }
 }
@@ -52,13 +54,11 @@ function loadKeywords() {
 }
 
 function displayKeywords() {
-  var titleKeywordsElement = document.createElement('p');
+  var titleKeywordsElement = document.getElementById('titleKeywords');
   titleKeywordsElement.textContent = 'Title Keywords: ' + titleKeywords.join(', ');
-  document.body.appendChild(titleKeywordsElement);
 
-  var descriptionKeywordsElement = document.createElement('p');
+  var descriptionKeywordsElement = document.getElementById('descriptionKeywords');
   descriptionKeywordsElement.textContent = 'Description Keywords: ' + descriptionKeywords.join(', ');
-  document.body.appendChild(descriptionKeywordsElement);
 }
 
 function editTitleKeywords() {
